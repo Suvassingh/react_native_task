@@ -59,6 +59,8 @@ export const CATEGORIES = [
   ),
 ];
 
+
+
 export const PRODUCTS = [
   new Product(
     "p1",
@@ -66,7 +68,7 @@ export const PRODUCTS = [
     "Pixelon X12 Smartphone",
     "Pixelon",
     "mid-range",
-    "https://cdn.pixabay.com/photo/2016/11/29/06/17/smartphone-1867461_1280.jpg",
+    require("../assets/Images/Smartphones.jpg"),
     449.99,
     [
       "6.5 inch OLED display",
@@ -87,7 +89,7 @@ export const PRODUCTS = [
     "AeroBook 14 Ultralight Laptop",
     "AeroTech",
     "premium",
-    "https://cdn.pixabay.com/photo/2015/07/17/22/43/laptop-851164_1280.jpg",
+    require("../assets/Images/Laptops.jpg"),
     1099.0,
     [
       "14 inch 2.8K display",
@@ -108,7 +110,7 @@ export const PRODUCTS = [
     "SonicWave Pro Wireless Earbuds",
     "SonicWave",
     "budget",
-    "https://cdn.pixabay.com/photo/2020/01/16/09/06/earphones-4770436_1280.jpg",
+    require("../assets/Images/Smartphones.jpg"),
     59.99,
     [
       "Active noise cancellation",
@@ -129,7 +131,7 @@ export const PRODUCTS = [
     "PulseFit Series 5 Smartwatch",
     "PulseFit",
     "mid-range",
-    "https://cdn.pixabay.com/photo/2018/01/02/14/18/smartwatch-3054539_1280.jpg",
+    require("../assets/Images/Smartphones.jpg"),
     199.0,
     [
       "1.9 inch AMOLED display",
@@ -150,7 +152,7 @@ export const PRODUCTS = [
     "Vortex GX Mechanical Keyboard",
     "Vortex",
     "mid-range",
-    "https://cdn.pixabay.com/photo/2017/08/06/00/03/keyboard-2586990_1280.jpg",
+    require("../assets/Images/Smartphones.jpg"),
     89.99,
     [
       "Hot-swappable switches",
@@ -171,7 +173,7 @@ export const PRODUCTS = [
     "LumaShot Z2 Mirrorless Camera",
     "LumaShot",
     "premium",
-    "https://cdn.pixabay.com/photo/2015/07/17/22/23/dslr-851017_1280.jpg",
+    require("../assets/Images/Smartphones.jpg"),
     1349.0,
     [
       "24.2MP APS-C sensor",
@@ -192,7 +194,7 @@ export const PRODUCTS = [
     "TabFlex 10 Tablet",
     "TabFlex",
     "budget",
-    "https://cdn.pixabay.com/photo/2014/09/17/20/26/tablet-449735_1280.jpg",
+    require("../assets/Images/Tablets.jpg"),
     229.0,
     [
       "10.4 inch IPS display",
@@ -213,7 +215,7 @@ export const PRODUCTS = [
     "ChillBreeze Portable Air Cooler",
     "ChillBreeze",
     "budget",
-    "https://cdn.pixabay.com/photo/2016/11/29/03/53/architecture-1867187_1280.jpg",
+    require("../assets/Images/Smartphones.jpg"),
     74.5,
     [
       "3-speed fan settings",
@@ -234,7 +236,7 @@ export const PRODUCTS = [
     "NetCore AX6000 Wi-Fi Router",
     "NetCore",
     "mid-range",
-    "https://cdn.pixabay.com/photo/2018/01/13/13/47/modem-3080828_1280.jpg",
+    require("../assets/Images/Smartphones.jpg"),
     129.99,
     [
       "Wi-Fi 6 (AX6000)",
@@ -259,7 +261,7 @@ export const PRODUCTS = [
     "PowerDeck 100W GaN Charger",
     "PowerDeck",
     "budget",
-    "https://cdn.pixabay.com/photo/2017/08/10/03/47/charger-2620648_1280.jpg",
+    require("../assets/Images/Smartphones.jpg"),
     39.99,
     [
       "100W USB-C PD output",

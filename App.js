@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
+import ProductList from "./screens/ProductOverViewScreen";
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
@@ -29,7 +30,7 @@ function DrawerNavigator() {
       }}
     >
       <Drawer.Screen
-        name="Categories"
+        name="AllCategories"
         component={CategoryScreen}
         options={{
           title: "All Categories",
@@ -70,12 +71,13 @@ export default function App() {
         }}
       >
         <Stack.Screen
-          name="Categories"
+          name="CategoriesDrawer"
           component={DrawerNavigator}
           options={{
             headerShown: false,
           }}
         />
+        <Stack.Screen name="ProductOverview" component={ProductList} />
       </Stack.Navigator>
     </NavigationContainer>
   );
