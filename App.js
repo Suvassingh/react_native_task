@@ -9,7 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 import SavedScreen from "./screens/SavedScreen";
 import ProductOverviewScreen from "./screens/ProductOverViewScreen";
 import ProductDetails from "./screens/ProductDetail";
-
+import { Button } from "react-native";
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();

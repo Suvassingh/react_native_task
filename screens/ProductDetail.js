@@ -1,9 +1,24 @@
 import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
 import { PRODUCTS } from "../data/dummy-data";
-
-function ProductDetails({ route }) {
+import { useLayoutEffect } from "react";
+import IconButton from "../components/IconButton";
+function ProductDetails({ route, navigation }) {
   const productId = route.params.productId;
   const product = PRODUCTS.find((pro) => pro.id === productId);
+  function changeFavrouteStatusHandler() {
+    console.log("test click ");
+  }
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <IconButton
+          icon="star"
+          color="white"
+          onPress={changeFavrouteStatusHandler}
+        />
+      ),
+    });
+  }, [navigation, changeFavrouteStatusHandler]);
   if (!product) {
     return (
       <View style={styles.fallback}>
@@ -11,6 +26,7 @@ function ProductDetails({ route }) {
       </View>
     );
   }
+
   return (
     <ScrollView style={styles.root}>
       <Image source={product.imageUrl} style={styles.image} />
