@@ -27,7 +27,7 @@ function ProductList({ route }) {
     <ScrollView style={styles.container}>
       {displayedProducts.map((pro) => (
         <View key={pro.id} style={styles.card}>
-          <Image source={pro.imageUrl} style={styles.image} />{" "}
+          <Image source={pro.imageUrl} style={styles.image} />
           <Text style={styles.title}>{pro.title}</Text>
           <View style={styles.detailsContainer}>
             <DetailRow label="Brand" value={pro.brand} />
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 
   card: {
     borderRadius: 12,
-    backgroundColor: "white",
+    backgroundColor: "#9beef2",
     elevation: 4,
     shadowColor: "black",
     shadowOpacity: 0.25,
@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
     paddingBottom: 16,
+    marginBottom: 32,
   },
 
   image: {

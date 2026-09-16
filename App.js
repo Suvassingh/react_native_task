@@ -7,6 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import ProductList from "./screens/ProductOverViewScreen";
+import SavedScreen from "./screens/SavedScreen";
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
@@ -39,6 +40,16 @@ function DrawerNavigator() {
           ),
         }}
       />
+      <Drawer.Screen
+        name="Saved"
+        component={SavedScreen}
+        options={{
+          title: "Saved",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="add" color={color} size={size} />
+          ),
+        }}
+      />
     </Drawer.Navigator>
   );
 }
@@ -58,6 +69,7 @@ export default function App() {
     return null;
   }
   return (
+    <>
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
@@ -79,6 +91,6 @@ export default function App() {
         />
         <Stack.Screen name="ProductOverview" component={ProductList} />
       </Stack.Navigator>
-    </NavigationContainer>
+    </NavigationContainer></>
   );
 }
