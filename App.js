@@ -6,8 +6,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
-import ProductList from "./screens/ProductOverViewScreen";
 import SavedScreen from "./screens/SavedScreen";
+import ProductOverviewScreen from "./screens/ProductOverViewScreen";
+import ProductDetails from "./screens/ProductDetail";
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
@@ -70,27 +71,35 @@ export default function App() {
   }
   return (
     <>
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: "#03cefb",
-          },
-          headerTintColor: "white",
-          contentStyle: {
-            backgroundColor: "#9beef2",
-          },
-        }}
-      >
-        <Stack.Screen
-          name="CategoriesDrawer"
-          component={DrawerNavigator}
-          options={{
-            headerShown: false,
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: "#03cefb",
+            },
+            headerTintColor: "white",
+            contentStyle: {
+              backgroundColor: "#9beef2",
+            },
           }}
-        />
-        <Stack.Screen name="ProductOverview" component={ProductList} />
-      </Stack.Navigator>
-    </NavigationContainer></>
+        >
+          <Stack.Screen
+            name="CategoriesDrawer"
+            component={DrawerNavigator}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="ProductOverview"
+            component={ProductOverviewScreen}
+          />
+          <Stack.Screen
+            name="ProductDetail"
+            component={ProductDetails}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
   );
 }

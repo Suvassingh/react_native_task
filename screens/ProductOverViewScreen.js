@@ -1,15 +1,15 @@
 import {
   View,
   Text,
-  Image,
-  ScrollView,
+
   StyleSheet,
   Platform,
 } from "react-native";
 
 import { PRODUCTS } from "../data/dummy-data";
+import ProductList from "../components/ProductList";
 
-function ProductList({ route }) {
+function ProductOverviewScreen({ route }) {
   const catId = route?.params?.categoryId;
 
   const displayedProducts = PRODUCTS.filter((pro) =>
@@ -23,56 +23,10 @@ function ProductList({ route }) {
       </View>
     );
   }
-  return (
-    <ScrollView style={styles.container}>
-      {displayedProducts.map((pro) => (
-        <View key={pro.id} style={styles.card}>
-          <Image source={pro.imageUrl} style={styles.image} />
-          <Text style={styles.title}>{pro.title}</Text>
-          <View style={styles.detailsContainer}>
-            <DetailRow label="Brand" value={pro.brand} />
-            <DetailRow label="Price" value={`$${pro.price}`} />
-            <DetailRow label="Price Range" value={pro.priceRange} />
-
-            <DetailRow label="Featured" value={pro.isFeatured ? "Yes" : "No"} />
-            <DetailRow
-              label="Best Seller"
-              value={pro.isBestSeller ? "Yes" : "No"}
-            />
-            <DetailRow label="In Stock" value={pro.inStock ? "Yes" : "No"} />
-            <DetailRow
-              label="Warranty"
-              value={pro.hasWarranty ? "Yes" : "No"}
-            />
-
-            <Text style={styles.sectionTitle}>Specs</Text>
-            {pro.specs.map((spec, index) => (
-              <Text key={index} style={styles.bullet}>
-                • {spec}
-              </Text>
-            ))}
-
-            <Text style={styles.sectionTitle}>Features</Text>
-            {pro.features.map((feature, index) => (
-              <Text key={index} style={styles.bullet}>
-                • {feature}
-              </Text>
-            ))}
-          </View>
-        </View>
-      ))}
-    </ScrollView>
-  );
+  return <ProductList items={displayedProducts} />;
 }
-function DetailRow({ label, value }) {
-  return (
-    <View style={styles.detailsRow}>
-      <Text style={styles.detailLabel}>{label}:</Text>
-      <Text style={styles.detailValue}>{value}</Text>
-    </View>
-  );
-}
-export default ProductList;
+
+export default ProductOverviewScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
