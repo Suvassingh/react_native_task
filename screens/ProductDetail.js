@@ -8,6 +8,7 @@ import { GlobalStyles } from "../Constants/Style";
 import DialogBox from "../components/DialogBox";
 // import { useReviews } from "../store/reviews-context";
 import { storeReview, getReviews } from "../utils/Http";
+import { useFavorites } from "../store/favorites-context";
 function ProductDetails({ route, navigation }) {
   const [isDialogVisible, setDialogVisible] = useState(false);
   // const { addReview, getReviews } = useReviews();
@@ -15,6 +16,10 @@ function ProductDetails({ route, navigation }) {
 
   const productId = route.params.productId;
   const product = PRODUCTS.find((pro) => pro.id === productId);
+
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const isFav = isFavorite(productId);
+
   // const reviews = getReviews(productId);
   useEffect(() => {
     async function loadReviews() {
@@ -23,20 +28,21 @@ function ProductDetails({ route, navigation }) {
     }
     loadReviews();
   }, [productId]);
-  function changeFavrouteStatusHandler() {
-    console.log("test click ");
-  }
   useLayoutEffect(() => {
+    function changeFavrouteStatusHandler() {
+      toggleFavorite(productId);
+    }
+
     navigation.setOptions({
       headerRight: () => (
         <IconButton
-          icon="star"
-          color="white"
+          icon={isFav ? "star" : "star-outline"}
+          color={isFav ? "#f7bc0c" : "white"}
           onPress={changeFavrouteStatusHandler}
         />
       ),
     });
-  }, [navigation, changeFavrouteStatusHandler]);
+  }, [navigation, isFav, productId, toggleFavorite]);
   if (!product) {
     return (
       <View style={styles.fallback}>

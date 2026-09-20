@@ -11,6 +11,7 @@ import ProductOverviewScreen from "./screens/ProductOverViewScreen";
 import ProductDetails from "./screens/ProductDetail";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ReviewsProvider } from "./store/reviews-context";
+import { FavoritesProvider } from "./store/favorites-context";
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
@@ -74,34 +75,36 @@ export default function App() {
   return (
     <>
       <SafeAreaProvider>
-        <ReviewsProvider>
-          <NavigationContainer>
-            <Stack.Navigator
-              screenOptions={{
-                headerStyle: {
-                  backgroundColor: "#03cefb",
-                },
-                headerTintColor: "white",
-                contentStyle: {
-                  backgroundColor: "#f5f5f5",
-                },
-              }}
-            >
-              <Stack.Screen
-                name="CategoriesDrawer"
-                component={DrawerNavigator}
-                options={{
-                  headerShown: false,
+        <FavoritesProvider>
+          <ReviewsProvider>
+            <NavigationContainer>
+              <Stack.Navigator
+                screenOptions={{
+                  headerStyle: {
+                    backgroundColor: "#03cefb",
+                  },
+                  headerTintColor: "white",
+                  contentStyle: {
+                    backgroundColor: "#f5f5f5",
+                  },
                 }}
-              />
-              <Stack.Screen
-                name="ProductOverview"
-                component={ProductOverviewScreen}
-              />
-              <Stack.Screen name="ProductDetail" component={ProductDetails} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </ReviewsProvider>
+              >
+                <Stack.Screen
+                  name="CategoriesDrawer"
+                  component={DrawerNavigator}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="ProductOverview"
+                  component={ProductOverviewScreen}
+                />
+                <Stack.Screen name="ProductDetail" component={ProductDetails} />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </ReviewsProvider>
+        </FavoritesProvider>
       </SafeAreaProvider>
     </>
   );
