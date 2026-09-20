@@ -1,19 +1,22 @@
 import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
 import { PRODUCTS } from "../data/dummy-data";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import IconButton from "../components/IconButton";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../components/Button";
 import { GlobalStyles } from "../Constants/Style";
 import DialogBox from "../components/DialogBox";
-import { useReviews } from "../store/reviews-context";
+// import { useReviews } from "../store/reviews-context";
+import { storeReview } from "../utils/Http";
 function ProductDetails({ route, navigation }) {
   const [isDialogVisible, setDialogVisible] = useState(false);
-  const { addReview, getReviews } = useReviews();
+  // const { addReview, getReviews } = useReviews();
+  const [reviews, setReviews] = useState([]);
 
   const productId = route.params.productId;
   const product = PRODUCTS.find((pro) => pro.id === productId);
-  const reviews = getReviews(productId);
+  // const reviews = getReviews(productId);
+
   function changeFavrouteStatusHandler() {
     console.log("test click ");
   }
@@ -43,9 +46,19 @@ function ProductDetails({ route, navigation }) {
     setDialogVisible(false);
   }
 
-  function submitReview({ reviewText, rating }) {
-    addReview(productId, { reviewText, rating });
-    console.log("Review submitted:", reviewText);
+  async function submitReview({ reviewText, rating }) {
+    const newReviewData = {
+      reviewText,
+      rating,
+      date: new Date().toISOString(),
+    };
+    const id = await storeReview(productId, newReviewData);
+    setReviews((current) => [
+      ...current,
+      { id, ...newReviewData, date: new Date(newReviewData.date) },
+    ]);
+    // addReview(productId, { reviewText, rating });
+    // console.log("Review submitted:", reviewText);
   }
   return (
     <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
