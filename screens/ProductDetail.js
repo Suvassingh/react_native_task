@@ -7,7 +7,7 @@ import Button from "../components/Button";
 import { GlobalStyles } from "../Constants/Style";
 import DialogBox from "../components/DialogBox";
 // import { useReviews } from "../store/reviews-context";
-import { storeReview } from "../utils/Http";
+import { storeReview, getReviews } from "../utils/Http";
 function ProductDetails({ route, navigation }) {
   const [isDialogVisible, setDialogVisible] = useState(false);
   // const { addReview, getReviews } = useReviews();
@@ -16,7 +16,13 @@ function ProductDetails({ route, navigation }) {
   const productId = route.params.productId;
   const product = PRODUCTS.find((pro) => pro.id === productId);
   // const reviews = getReviews(productId);
-
+  useEffect(() => {
+    async function loadReviews() {
+      const data = await getReviews(productId);
+      setReviews(data);
+    }
+    loadReviews();
+  }, [productId]);
   function changeFavrouteStatusHandler() {
     console.log("test click ");
   }

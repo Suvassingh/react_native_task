@@ -10,3 +10,19 @@ export async function storeReview(proId, reviewData) {
   const id = response.data.name;
   return id;
 }
+
+export async function getReviews(proId) {
+  const response = await axios.get(BASE_URL + `/reviews/${proId}.json`);
+  const reviews = [];
+  console.log(response.data);
+  for (const key in response.data) {
+    const reviewObj = {
+      id: key,
+      reviewText: response.data[key].reviewText,
+      rating: response.data[key].rating,
+      date: new Date(response.data[key].date),
+    };
+    reviews.push(reviewObj);
+  }
+  return reviews;
+}
