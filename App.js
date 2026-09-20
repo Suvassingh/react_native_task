@@ -9,7 +9,8 @@ import { Ionicons } from "@expo/vector-icons";
 import SavedScreen from "./screens/SavedScreen";
 import ProductOverviewScreen from "./screens/ProductOverViewScreen";
 import ProductDetails from "./screens/ProductDetail";
-import { Button } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -23,7 +24,7 @@ function DrawerNavigator() {
         },
         headerTintColor: "white",
         sceneContainerStyle: {
-          backgroundColor: "#4b4545",
+          backgroundColor: "#f5f5f5",
         },
         drawerContentStyle: { backgroundColor: "#03cefb" },
         drawerInactiveTintColor: "white",
@@ -71,35 +72,34 @@ export default function App() {
   }
   return (
     <>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: "#03cefb",
-            },
-            headerTintColor: "white",
-            contentStyle: {
-              backgroundColor: "#9beef2",
-            },
-          }}
-        >
-          <Stack.Screen
-            name="CategoriesDrawer"
-            component={DrawerNavigator}
-            options={{
-              headerShown: false,
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: "#03cefb",
+              },
+              headerTintColor: "white",
+              contentStyle: {
+                backgroundColor: "#f5f5f5",
+              },
             }}
-          />
-          <Stack.Screen
-            name="ProductOverview"
-            component={ProductOverviewScreen}
-          />
-          <Stack.Screen
-            name="ProductDetail"
-            component={ProductDetails}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+          >
+            <Stack.Screen
+              name="CategoriesDrawer"
+              component={DrawerNavigator}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="ProductOverview"
+              component={ProductOverviewScreen}
+            />
+            <Stack.Screen name="ProductDetail" component={ProductDetails} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaProvider>
     </>
   );
 }

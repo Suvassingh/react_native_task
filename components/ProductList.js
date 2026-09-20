@@ -1,7 +1,11 @@
-import { FlatList } from "react-native";
+import { FlatList,  } from "react-native";
 import ProductItem from "./ProductItem";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-function ProductList({ items }) {
+
+function ProductList({ items }) {  
+    const insets = useSafeAreaInsets();
+
   function renderProductItem(itemData) {
     const productItemProps = {
       id: itemData.item.id,
@@ -19,6 +23,7 @@ function ProductList({ items }) {
       data={items}
       keyExtractor={(i) => i.id}
       renderItem={renderProductItem}
+      contentContainerStyle={{ paddingBottom: insets.bottom + 16 }}
     />
   );
 }

@@ -1,10 +1,5 @@
-import {
-  View,
-  Text,
-
-  StyleSheet,
-  Platform,
-} from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { PRODUCTS } from "../data/dummy-data";
 import ProductList from "../components/ProductList";
@@ -23,7 +18,11 @@ function ProductOverviewScreen({ route }) {
       </View>
     );
   }
-  return <ProductList items={displayedProducts} />;
+  return (
+    <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
+      <ProductList items={displayedProducts} />
+    </SafeAreaView>
+  );
 }
 
 export default ProductOverviewScreen;

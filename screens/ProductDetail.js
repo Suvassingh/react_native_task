@@ -2,6 +2,8 @@ import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
 import { PRODUCTS } from "../data/dummy-data";
 import { useLayoutEffect } from "react";
 import IconButton from "../components/IconButton";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 function ProductDetails({ route, navigation }) {
   const productId = route.params.productId;
   const product = PRODUCTS.find((pro) => pro.id === productId);
@@ -28,40 +30,48 @@ function ProductDetails({ route, navigation }) {
   }
 
   return (
-    <ScrollView style={styles.root}>
-      <Image source={product.imageUrl} style={styles.image} />
-      <Text style={styles.title}>{product.title}</Text>
+    <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
+      <ScrollView
+        style={styles.root}
+        contentContainerStyle={{ paddingBottom: 12 }}
+      >
+        <Image source={product.imageUrl} style={styles.image} />
+        <Text style={styles.title}>{product.title}</Text>
 
-      <View style={styles.detailsContainer}>
-        <DetailRow label="Brand" value={product.brand} />
-        <DetailRow label="Price" value={`$${product.price}`} />
-        <DetailRow label="Price Range" value={product.priceRange} />
-        <DetailRow label="Featured" value={product.isFeatured ? "Yes" : "No"} />
-        <DetailRow
-          label="Best Seller"
-          value={product.isBestSeller ? "Yes" : "No"}
-        />
-        <DetailRow label="In Stock" value={product.inStock ? "Yes" : "No"} />
-        <DetailRow
-          label="Warranty"
-          value={product.hasWarranty ? "Yes" : "No"}
-        />
+        <View style={styles.detailsContainer}>
+          <DetailRow label="Brand" value={product.brand} />
+          <DetailRow label="Price" value={`$${product.price}`} />
+          <DetailRow label="Price Range" value={product.priceRange} />
+          <DetailRow
+            label="Featured"
+            value={product.isFeatured ? "Yes" : "No"}
+          />
+          <DetailRow
+            label="Best Seller"
+            value={product.isBestSeller ? "Yes" : "No"}
+          />
+          <DetailRow label="In Stock" value={product.inStock ? "Yes" : "No"} />
+          <DetailRow
+            label="Warranty"
+            value={product.hasWarranty ? "Yes" : "No"}
+          />
 
-        <Text style={styles.sectionTitle}>Specs</Text>
-        {product.specs.map((spec, i) => (
-          <Text key={i} style={styles.bullet}>
-            • {spec}
-          </Text>
-        ))}
+          <Text style={styles.sectionTitle}>Specs</Text>
+          {product.specs.map((spec, i) => (
+            <Text key={i} style={styles.bullet}>
+              • {spec}
+            </Text>
+          ))}
 
-        <Text style={styles.sectionTitle}>Features</Text>
-        {product.features.map((feature, i) => (
-          <Text key={i} style={styles.bullet}>
-            • {feature}
-          </Text>
-        ))}
-      </View>
-    </ScrollView>
+          <Text style={styles.sectionTitle}>Features</Text>
+          {product.features.map((feature, i) => (
+            <Text key={i} style={styles.bullet}>
+              • {feature}
+            </Text>
+          ))}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 function DetailRow({ label, value }) {
@@ -74,7 +84,7 @@ function DetailRow({ label, value }) {
 }
 export default ProductDetails;
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: "#f5f5f5", paddingBottom: 32 },
+  root: { flex: 1, backgroundColor: "#f5f5f5" },
   image: { width: "100%", height: 300 },
   title: {
     fontWeight: "bold",
