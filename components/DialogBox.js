@@ -18,7 +18,7 @@ export default function DialogBox({ visible, onClose, onSubmit }) {
 
   function handleSubmit() {
     if (onSubmit) {
-      onSubmit({ text: inputValue, rating });
+      onSubmit({ reviewText: inputValue, rating });
     }
     setInputValue("");
     setRating(0);

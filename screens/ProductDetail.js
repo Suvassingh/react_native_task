@@ -6,11 +6,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../components/Button";
 import { GlobalStyles } from "../Constants/Style";
 import DialogBox from "../components/DialogBox";
-
+import { useReviews } from "../store/reviews-context";
 function ProductDetails({ route, navigation }) {
   const [isDialogVisible, setDialogVisible] = useState(false);
+  const { addReview, getReviews } = useReviews();
+
   const productId = route.params.productId;
   const product = PRODUCTS.find((pro) => pro.id === productId);
+  const reviews = getReviews(productId);
   function changeFavrouteStatusHandler() {
     console.log("test click ");
   }
@@ -41,6 +44,7 @@ function ProductDetails({ route, navigation }) {
   }
 
   function submitReview({ reviewText, rating }) {
+    addReview(productId, { reviewText, rating });
     console.log("Review submitted:", reviewText);
   }
   return (
@@ -90,6 +94,28 @@ function ProductDetails({ route, navigation }) {
               • {feature}
             </Text>
           ))}
+
+          {/*  */}
+          <Text style={styles.sectionTitle}>Reviews ({reviews.length})</Text>
+
+          {reviews.length === 0 ? (
+            <Text style={styles.emptyReviews}>
+              No reviews yet. Be the first to review!
+            </Text>
+          ) : (
+            reviews.map((review) => (
+              <View key={review.id} style={styles.reviewCard}>
+                <Text style={styles.reviewStars}>
+                  {"★".repeat(review.rating)}
+                  {"☆".repeat(5 - review.rating)}
+                </Text>
+                <Text style={styles.reviewText}>{review.reviewText}</Text>
+                <Text style={styles.reviewDate}>
+                  {new Date(review.date).toLocaleDateString()}
+                </Text>
+              </View>
+            ))
+          )}
         </View>
       </ScrollView>
       <DialogBox
@@ -170,5 +196,33 @@ const styles = StyleSheet.create({
     backgroundColor: GlobalStyles.colors.accent500,
     paddingHorizontal: 8,
     paddingVertical: 4,
+  },
+  emptyReviews: {
+    fontSize: 13,
+    color: "#888",
+    fontStyle: "italic",
+    paddingVertical: 6,
+  },
+  reviewCard: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: "#eee",
+  },
+  reviewStars: {
+    fontSize: 16,
+    color: "#f1c40f",
+    marginBottom: 4,
+  },
+  reviewText: {
+    fontSize: 14,
+    color: "#333",
+    marginBottom: 4,
+  },
+  reviewDate: {
+    fontSize: 11,
+    color: "#999",
   },
 });
