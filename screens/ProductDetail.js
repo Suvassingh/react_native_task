@@ -1,10 +1,14 @@
 import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
 import { PRODUCTS } from "../data/dummy-data";
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useState } from "react";
 import IconButton from "../components/IconButton";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Button from "../components/Button";
+import { GlobalStyles } from "../Constants/Style";
+import DialogBox from "../components/DialogBox";
 
 function ProductDetails({ route, navigation }) {
+  const [isDialogVisible, setDialogVisible] = useState(false);
   const productId = route.params.productId;
   const product = PRODUCTS.find((pro) => pro.id === productId);
   function changeFavrouteStatusHandler() {
@@ -28,7 +32,17 @@ function ProductDetails({ route, navigation }) {
       </View>
     );
   }
+  function reviewProduct() {
+    setDialogVisible(true);
+  }
 
+  function closeDialog() {
+    setDialogVisible(false);
+  }
+
+  function submitReview({ reviewText, rating }) {
+    console.log("Review submitted:", reviewText);
+  }
   return (
     <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
       <ScrollView
@@ -36,7 +50,14 @@ function ProductDetails({ route, navigation }) {
         contentContainerStyle={{ paddingBottom: 12 }}
       >
         <Image source={product.imageUrl} style={styles.image} />
-        <Text style={styles.title}>{product.title}</Text>
+        <View style={styles.titleReview}>
+          <Text style={styles.title} numberOfLines={2}>
+            {product.title}
+          </Text>
+          <Button style={styles.button} mode="flat" onPress={reviewProduct}>
+            Review
+          </Button>
+        </View>
 
         <View style={styles.detailsContainer}>
           <DetailRow label="Brand" value={product.brand} />
@@ -71,6 +92,11 @@ function ProductDetails({ route, navigation }) {
           ))}
         </View>
       </ScrollView>
+      <DialogBox
+        visible={isDialogVisible}
+        onClose={closeDialog}
+        onSubmit={submitReview}
+      />
     </SafeAreaView>
   );
 }
@@ -87,12 +113,11 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: "#f5f5f5" },
   image: { width: "100%", height: 300 },
   title: {
+    flex: 1,
     fontWeight: "bold",
     fontSize: 20,
-    textAlign: "center",
-    marginVertical: 12,
-    marginHorizontal: 16,
     color: "#222",
+    flexShrink: 1,
   },
   detailsContainer: { paddingHorizontal: 16 },
   detailsRow: {
@@ -130,5 +155,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 24,
+  },
+  titleReview: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 12,
+    paddingHorizontal: 16,
+    gap: 12,
+  },
+  button: {
+    flexShrink: 0,
+    borderRadius: 12,
+    backgroundColor: GlobalStyles.colors.accent500,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
   },
 });
