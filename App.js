@@ -12,6 +12,7 @@ import ProductDetails from "./screens/ProductDetail";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ReviewsProvider } from "./store/reviews-context";
 import { FavoritesProvider } from "./store/favorites-context";
+import ProductSearchScreen from "./screens/ProductSearchScreen";
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createNativeStackNavigator();
@@ -101,6 +102,11 @@ export default function App() {
                   component={ProductOverviewScreen}
                 />
                 <Stack.Screen name="ProductDetail" component={ProductDetails} />
+                <Stack.Screen
+                  name="ProductSearch"
+                  component={ProductSearchScreen}
+                  options={{ title: "Search Product" }}
+                />
               </Stack.Navigator>
             </NavigationContainer>
           </ReviewsProvider>

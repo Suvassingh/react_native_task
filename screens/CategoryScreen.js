@@ -1,9 +1,24 @@
-import { FlatList } from "react-native";
+import { FlatList, StyleSheet,View } from "react-native";
 import { CATEGORIES } from "../data/dummy-data";
 import CategoryGridTile from "../components/CategoryGridTile";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useLayoutEffect } from "react";
+import IconButton from "../components/IconButton";
 
 function CategoryScreen({ navigation }) {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={styles.searchIcon}>
+          <IconButton
+            icon="search"
+            color="white"
+            onPress={() => navigation.navigate("ProductSearch")}
+          />
+        </View>
+      ),
+    });
+  }, [navigation]);
   function renderCategoryItem(itemData) {
     function goToProduct() {
       navigation.navigate("ProductOverview", {
@@ -33,3 +48,9 @@ function CategoryScreen({ navigation }) {
 }
 
 export default CategoryScreen;
+
+const styles = StyleSheet.create({
+  searchIcon: {
+    marginRight: 12,
+  },
+});
