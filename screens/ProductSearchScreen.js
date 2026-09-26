@@ -1,34 +1,67 @@
-import { View, FlatList, TextInput, StyleSheet } from "react-native";
-import { useCallback, useMemo, useState } from "react";
+import { View, FlatList, StyleSheet, InteractionManager } from "react-native";
+import { useCallback, useMemo, useState, useEffect } from "react";
 import ProductSearchItem from "../components/ProductSearchItem";
 import { getLargeProducts } from "../data/large-products";
 import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import FilterBar from "../components/FilterBar";
 
 function ProductSearchScreen({ navigation }) {
   const insets = useSafeAreaInsets();
-  const [query, setQuery] = useState("");
-  const allProducts = useMemo(() => getLargeProducts(), []);
-  const visibleItems = useMemo(() => {
-    const queryItem = query.trim().toLowerCase();
-    if (!queryItem) return allProducts;
-    return allProducts.filter((pro) => {
-      const haystack = (
-        pro._search ?? `${pro.title} ${pro.brand}`
-      ).toLowerCase();
-      return haystack.includes(queryItem);
-    });
-  }, [allProducts, query]);
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
-const goToDetail = useCallback(
-  (productId) => {
-    const baseId = productId.split("-")[0];
-    navigation.navigate("ProductDetail", { productId: baseId });
-  },
-  [navigation],
-);
+  const [priceRange, setPriceRange] = useState("all");
+  const [toggles, setToggles] = useState({
+    inStock: false,
+    bestSeller: false,
+    featured: false,
+  });
+  const [sortKey, setSortKey] = useState("name");
+  const [allProducts, setAllProducts] = useState([]);
+  useEffect(() => {
+    const id = setTimeout(() => setDebouncedSearch(search), 200);
+    return () => clearTimeout(id);
+  }, [search]);
+  useEffect(() => {
+    const task = InteractionManager.runAfterInteractions(() => {
+      setAllProducts(getLargeProducts());
+    });
+    return () => task.cancel();
+  }, []);
+
+  const visibleItems = useMemo(() => {
+    const queryItem = debouncedSearch.trim().toLowerCase();
+    const filtered = allProducts.filter((pro) => {
+      if (queryItem) {
+        const haystack = (
+          pro._search ?? `${pro.title} ${pro.brand}`
+        ).toLowerCase();
+        if (!haystack.includes(queryItem)) return false;
+      }
+      if (priceRange !== "all" && pro.priceRange !== priceRange) return false;
+      if (toggles.inStock && !pro.inStock) return false;
+      if (toggles.bestSeller && !pro.isBestSeller) return false;
+      if (toggles.featured && !pro.isFeatured) return false;
+      return true;
+    });
+
+    return [...filtered].sort((a, b) => {
+      if (sortKey === "price-asc") return a.price - b.price;
+      if (sortKey === "price-desc") return b.price - a.price;
+      return a.title.localeCompare(b.title);
+    });
+  }, [allProducts, debouncedSearch, priceRange, toggles, sortKey]);
+
+  const goToDetail = useCallback(
+    (productId) => {
+      const baseId = productId.split("-")[0];
+      navigation.navigate("ProductDetail", { productId: baseId });
+    },
+    [navigation],
+  );
 
   const renderItem = useCallback(
     ({ item }) => (
@@ -38,15 +71,22 @@ const goToDetail = useCallback(
   );
 
   const keyExtractor = useCallback((item) => item.id, []);
+
+  function handleToggleChange(key, value) {
+    setToggles((current) => ({ ...current, [key]: value }));
+  }
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
-      <View style={{ flex: 1 }}>
-        <TextInput
-          value={query}
-          onChangeText={setQuery}
-          placeholder="Search products..."
-          style={styles.input}
-          autoCorrect={false}
+    <SafeAreaView style={styles.flex} edges={["bottom"]}>
+      <View style={styles.flex}>
+        <FilterBar
+          search={search}
+          onSearchChange={setSearch}
+          priceRange={priceRange}
+          onPriceRangeChange={setPriceRange}
+          toggles={toggles}
+          onToggleChange={handleToggleChange}
+          sortKey={sortKey}
+          onSortChange={setSortKey}
         />
         <FlatList
           data={visibleItems}
@@ -66,13 +106,5 @@ const goToDetail = useCallback(
 
 export default ProductSearchScreen;
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#f5f5f5" },
-  input: {
-    margin: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    fontSize: 14,
-  },
+  flex: { flex: 1 },
 });
